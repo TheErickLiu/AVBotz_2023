@@ -20,13 +20,13 @@ def pathmarker_info(image_path: str) -> Tuple[int, int, int]:
     # cv2.CHAIN_APPROX_SIMPLE: compresses horizontal, vertical, and diagonal segments and leaves only their end points
     contours, _ = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-    # find the largerst contour with a matching color
+    # find the largest contour with a matching color
     largest, idx = -1, -1
     for i, c in enumerate(contours):
         if cv2.contourArea(c) > largest:
             largest, idx = cv2.contourArea(c), i
 
-    # center, width and height helps find corrent angle
+    # center, width and height helps find correct angle
     (xPixelCenter, yPixelCenter), (width, height), angle = cv2.minAreaRect(contours[idx])
 
     if width > height:

@@ -46,7 +46,7 @@ def calc_angle(p1: float, p2: float, p3: float) -> int:
 
 def angle_to_pinger(audio_file: str) -> int:
 
-     # seperates into 3 columns for each hydrophone
+     # Separates into 3 columns for each hydrophone
     raw = np.loadtxt(audio_file, delimiter=';')
     phases = []
 

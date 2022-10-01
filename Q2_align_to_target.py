@@ -38,12 +38,12 @@ def align_to_target(align_in: tuple) -> tuple:
     vertical_scale = objRealHeight/float(objImgHeight)
 
     # convert heights based on pixel scale 
-    imgDimRealY = pixel_to_meter(imgDimY, vertical_scale)
-    imgCenterY = imgDimRealY / 2
+    hfov_width = pixel_to_meter(imgDimY, vertical_scale)
+    imgCenterY = hfov_width / 2
     objCenterY = pixel_to_meter(centerY, vertical_scale) 
 
     # calculate distance 
-    dist = calc_dist(imgDimRealY, vfov) 
+    dist = calc_dist(hfov_width, vfov) 
 
     # converts pixels to meters for widths based on hfov and dist
     hfov_width = math.tan(math.radians(hfov/2)) * dist * 2
