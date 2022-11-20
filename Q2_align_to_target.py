@@ -5,16 +5,13 @@ import os
 def pixel_to_meter(p: float, scale: float) -> float:
     return (p * scale) / 1000 # pixels to mm to meters
 
+def calc_dist(focalLength, objRealHeight, imgDimY: float, objImgHeight, sensorSize) -> float:
+    ''' Distance Formula '''
 
-def calc_dist(vfov_height: float, vfov: float) -> float:
-    ''' half of vertical POV height divided by tangent of half of vfov '''
-
-    r = math.radians(vfov/2)
-    t = math.tan(r)
-    d = (vfov_height/2) / t
+    d = (focalLength*objRealHeight*imgDimY) / (objImgHeight*sensorSize)
+    d = d/1000
 
     return d
-
 
 def angle_of_points(p1: list, p2: list, dist: float) -> tuple:
     ''' inverse of dist between 2 points over dist to object, for yaw and pitch '''
@@ -38,12 +35,12 @@ def align_to_target(align_in: tuple) -> tuple:
     vertical_scale = objRealHeight/float(objImgHeight)
 
     # convert heights based on pixel scale 
-    hfov_width = pixel_to_meter(imgDimY, vertical_scale)
-    imgCenterY = hfov_width / 2
+    vfov_height = pixel_to_meter(imgDimY, vertical_scale)
+    imgCenterY = vfov_height / 2
     objCenterY = pixel_to_meter(centerY, vertical_scale) 
 
     # calculate distance 
-    dist = calc_dist(hfov_width, vfov) 
+    dist = calc_dist(focalLength, objRealHeight, imgDimY, objImgHeight, sensorSize)
 
     # converts pixels to meters for widths based on hfov and dist
     hfov_width = math.tan(math.radians(hfov/2)) * dist * 2
